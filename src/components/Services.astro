@@ -35,7 +35,11 @@ const services = [
   {
     title: "Analytics + Automation",
     description:
-      "Agentic tool and system builds with \"human in the loop\" gates to increase KPI output and efficiency",
+      "Agentic tool and system builds with \"human in the loop\" gates to increase KPI output and efficiency.",
+    link: {
+      label: "See Case Studies.",
+      href: "https://canva.link/kj-agentic-casestudies",
+    },
     bg: "bg-green",
     text: "text-white",
     descText: "text-white/80",
@@ -74,6 +78,19 @@ const services = [
               class={`${service.descText} leading-relaxed text-[0.95rem] font-body`}
             >
               {service.description}
+              {"link" in service && service.link && (
+                <>
+                  {" "}
+                  <a
+                    href={service.link.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class={`underline underline-offset-2 hover:opacity-80 transition-opacity ${service.text}`}
+                  >
+                    {service.link.label}
+                  </a>
+                </>
+              )}
             </p>
           </div>
         ))
