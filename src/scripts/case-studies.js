@@ -16,6 +16,26 @@ if (section) {
     coral: { bg: "bg-coral", text: "text-white", border: "border-coral" },
   };
 
+  const total = details.length;
+  let autoTimer = null;
+  const reduceMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  function stopAuto() {
+    if (autoTimer) {
+      clearInterval(autoTimer);
+      autoTimer = null;
+    }
+  }
+  function startAuto() {
+    if (reduceMotion || total <= 1) return;
+    autoTimer = setInterval(() => {
+      const next = (parseInt(section.dataset.selected, 10) + 1) % total;
+      select(next);
+    }, 4000);
+  }
+
   function select(index) {
     section.dataset.selected = String(index);
     const activeTab = tabs[index];
@@ -75,14 +95,19 @@ if (section) {
   }
 
   tabs.forEach((tab, index) => {
-    tab.addEventListener("click", () => select(index));
+    tab.addEventListener("click", () => {
+      stopAuto();
+      select(index);
+    });
   });
 
   if (mobileSelect) {
     mobileSelect.addEventListener("change", () => {
+      stopAuto();
       select(parseInt(mobileSelect.value, 10));
     });
   }
 
   select(0);
+  startAuto();
 }
